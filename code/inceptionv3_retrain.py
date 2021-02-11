@@ -2,60 +2,28 @@
 
 """Inception v3 architecture 모델을 이용한 간단한 Transfer Learning (TensorBoard 포함)
 
+MIT License
+Copyright (c) 2021 GIS lab of EWHA.W.U
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
 This example shows how to take a Inception v3 architecture model trained on
-ImageNet images, and train a new top layer that can recognize other classes of
+ImageNet images, and train all layers that can recognize other classes of
 images.
-
-The top layer receives as input a 2048-dimensional vector for each image. We
-train a softmax layer on top of this representation. Assuming the softmax layer
-contains N labels, this corresponds to learning N + 2048*N model parameters
-corresponding to the learned biases and weights.
-
-Here's an example, which assumes you have a folder containing class-named
-subfolders, each full of images for each label. The example folder flower_photos
-should have a structure like this:
-
-~/flower_photos/daisy/photo1.jpg
-~/flower_photos/daisy/photo2.jpg
-...
-~/flower_photos/rose/anotherphoto77.jpg
-...
-~/flower_photos/sunflower/somepicture.jpg
-
-The subfolder names are important, since they define what label is applied to
-each image, but the filenames themselves don't matter. Once your images are
-prepared, you can run the training with a command like this:
-
-
-```bash
-bazel build tensorflow/examples/image_retraining:retrain && \
-bazel-bin/tensorflow/examples/image_retraining/retrain \
-    --image_dir ~/flower_photos
-```
-
-Or, if you have a pip installation of tensorflow, `retrain.py` can be run
-without bazel:
-
-```bash
-python tensorflow/examples/image_retraining/retrain.py \
-    --image_dir ~/flower_photos
-```
-
-You can replace the image_dir argument with any folder containing subfolders of
-images. The label for each image is taken from the name of the subfolder it's
-in.
-
-This produces a new model file that can be loaded and run by any TensorFlow
-program, for example the label_image sample code.
-
-
-To use with TensorBoard:
-
-By default, this script will log summaries to /tmp/retrain_logs directory
-
-Visualize the summaries with this command:
-
-tensorboard --logdir /tmp/retrain_logs
 
 """
 from __future__ import absolute_import
